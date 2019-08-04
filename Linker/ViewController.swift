@@ -8,13 +8,27 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+enum ProfileType: String {
+    case guest = "Guest" // default
+    case host = "Host"
+}
 
+class ViewController: UIViewController {
+    var currentProfile = ProfileType.guest
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        configureFor(profileType: currentProfile)
     }
-
-
+    @IBAction func didPressSwitchProfile(_ sender: Any) {
+        currentProfile = currentProfile == .guest ? .host : .guest
+        configureFor(profileType: currentProfile)
+    }
+    func configureFor(profileType: ProfileType) {
+        title = profileType.rawValue
+        ShortcutParser.registerShortcuts(for: profileType)
+    }
+ 
 }
+
 
